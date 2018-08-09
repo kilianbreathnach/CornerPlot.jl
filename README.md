@@ -13,3 +13,5 @@ corner(df)
 
 Further optional arguments can be seen in the example IJulia notebook or in
 the docstrings of the code.
+
+![corner example](./assets/rosenbrock.png)

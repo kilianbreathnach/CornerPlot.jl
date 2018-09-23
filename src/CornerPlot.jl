@@ -17,6 +17,7 @@ function corner(samples::Union{Array{Float64}, AbstractDataFrame};
                 range::Union{Array{Tuple{Float64,Float64}, 1}, Void} = nothing,
                 varnames::Union{Array{String, 1}, Array{Symbol, 1}, Void} = nothing,
                 truthvals::Union{Array{Float64, 1}, Array{Array{Float64, 1}}, Void} = nothing,
+                ylabel_orientation::Symbol = :vertical,
                 plotsize::Measures.Length{:mm,Float64} = 20cm)
 
     # If samples are in dataframe, get array of values
@@ -115,7 +116,8 @@ function corner(samples::Union{Array{Float64}, AbstractDataFrame};
 
         # and plot the diagonal histogram
         subplots[i, i] = render(plot(diagarr...,
-                                     Guide.xlabel(nothing), Guide.ylabel(nothing),))
+                                     Guide.xlabel(nothing),
+                                     Guide.ylabel(nothing),))
 
         # now loop over the subplots down the column
         for j in (i + 1):ndims
@@ -164,7 +166,9 @@ function corner(samples::Union{Array{Float64}, AbstractDataFrame};
             # and plot the layers
             subplots[j, i] = render(plot(offdiag...,
                                     Scale.color_continuous(colormap = Viridis.viridis),
-                                    Guide.xlabel(xlabel), Guide.ylabel(ylabel),
+                                    Guide.xlabel(xlabel),
+                                    Guide.ylabel(ylabel,
+                                                 orientation = ylabel_orientation),
                                     Coord.Cartesian(xmin = bins[i][1], xmax = bins[i][end],
                                                     ymin = bins[j][1], ymax = bins[j][end]),
                                     Theme(key_position = :none)))
